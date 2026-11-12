@@ -1,24 +1,19 @@
 # Decompiled game code - belongs to the game's developer, never publish
-work/decomp/
+decomp/
 
 # Build output, caches, temp
-work/out/
-work/tmp/
-work/nuget/
-work/dotnet-home/
+.build/
 **/bin/
 **/obj/
 
 # Game cover art (copied from the local Steam cache at build time)
-work/src/TrainerApp/Assets/
+src/TrainerApp/Assets/
 
 # Runtime files written while the trainer is attached
 TrainerData/
+release/TrainerData/
 
-# Local build copy (the published exe lives in release/)
-/ProbablyStolenTrainer.exe
-
-# Local editor / assistant settings
+# Editor / assistant settings
 .claude/
 .vs/
 *.user

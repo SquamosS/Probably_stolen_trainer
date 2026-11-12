@@ -1,5 +1,12 @@
 # Live test: sends commands to the injected trainer and checks the values the game reports back.
-$d = Join-Path (Split-Path -Parent $PSScriptRoot) "TrainerData"
+param([string]$ExeFolder)   # folder the trainer exe was started from (default: workspace Trainers\, else release\)
+$proc = "Probably Stolen"
+if (-not $ExeFolder) {
+    $ws = Join-Path $PSScriptRoot "..\..\Trainers"
+    $ExeFolder = if (Test-Path (Join-Path $ws "TrainerData\$proc")) { $ws } else { Join-Path $PSScriptRoot "release" }
+}
+$d = Join-Path $ExeFolder "TrainerData\$proc"
+if (-not (Test-Path "$d\status.txt")) { throw "No status file in $d - is the trainer attached?" }
 function St { $h=@{}; foreach($l in Get-Content "$d\status.txt"){ $p=$l.Split('=',2); if($p.Count -eq 2){ $h[$p[0]]=$p[1] } }; $h }
 function Send($c, $wait=900) { Add-Content "$d\commands.txt" $c; Start-Sleep -Milliseconds $wait; St }
 $results = @()

@@ -18,7 +18,7 @@
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\out\mod\PSTrainerMod.dll" LogicalName="PSTrainerMod.dll" />
+    <EmbeddedResource Include="..\..\.build\out\mod\PSTrainerMod.dll" LogicalName="PSTrainerMod.dll" />
     <!-- Game cover art is taken from your local Steam cache by build.ps1 (not stored in the repo). -->
     <EmbeddedResource Include="Assets\cover.jpg" LogicalName="cover.jpg" Condition="Exists('Assets\cover.jpg')" />
   </ItemGroup>

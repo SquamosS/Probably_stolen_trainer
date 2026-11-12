@@ -10,7 +10,8 @@ internal sealed class MainForm : Form
 {
     private const string ProcessName = "Probably Stolen";
 
-    private readonly string dataDir = Path.Combine(AppContext.BaseDirectory, "TrainerData");
+    // One sub-folder per game, so many trainers can live side by side in one folder.
+    private readonly string dataDir = Path.Combine(AppContext.BaseDirectory, "TrainerData", ProcessName);
     private string CmdFile => Path.Combine(dataDir, "commands.txt");
     private string StatusFile => Path.Combine(dataDir, "status.txt");
     private string ItemsFile => Path.Combine(dataDir, "items.txt");

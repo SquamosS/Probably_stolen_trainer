@@ -58,21 +58,21 @@ Also included: a searchable **item spawner** for every item in the game, 15 **it
 
 ## How it works
 
-- `work/src/TrainerApp` — the Windows app (WinForms, .NET 9). It finds the game, loads the payload into the game's Mono runtime, and sends commands through small text files in `TrainerData/` next to the exe.
-- `work/src/TrainerMod` — the payload that runs inside the game. It uses Harmony patches and the game's own functions.
+- `src/TrainerApp` — the Windows app (WinForms, .NET 9). It finds the game, loads the payload into the game's Mono runtime, and sends commands through small text files in `TrainerData/Probably Stolen/` next to the exe.
+- `src/TrainerMod` — the payload that runs inside the game. It uses Harmony patches and the game's own functions.
 
 ## Build from source
 
 Requirements: .NET 9 SDK and the game installed (the payload compiles against the game's own DLLs).
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File work\build.ps1
+powershell -ExecutionPolicy Bypass -File build.ps1
 ```
 
-If the game isn't in `D:\SteamLibrary\steamapps\common\Probably Stolen`, pass your path:
-`dotnet build work\src\TrainerMod -p:GameManaged="<game>\Probably Stolen_Data\Managed"`.
+If the game isn't in `D:\SteamLibrary\steamapps\common\Probably Stolen`, set `GameManaged` in
+`src/TrainerMod/TrainerMod.csproj` to `<game>\Probably Stolen_Data\Managed`.
 
-All build caches stay inside the project folder.
+All build output and caches stay inside this folder (`.build/`).
 
 ## Disclaimer
 
