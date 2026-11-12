@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>ProbablyStolenTrainer</AssemblyName>
+    <RootNamespace>PSTrainerApp</RootNamespace>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <DebugType>none</DebugType>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <Product>Probably Stolen Trainer</Product>
+    <Version>1.0.0</Version>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\out\mod\PSTrainerMod.dll" LogicalName="PSTrainerMod.dll" />
+    <!-- Game cover art is taken from your local Steam cache by build.ps1 (not stored in the repo). -->
+    <EmbeddedResource Include="Assets\cover.jpg" LogicalName="cover.jpg" Condition="Exists('Assets\cover.jpg')" />
+  </ItemGroup>
+</Project>
