@@ -1,4 +1,4 @@
-# Live test: sends commands to the injected trainer and checks the values the game reports back.
+﻿# Live test: sends commands to the injected trainer and checks the values the game reports back.
 param([string]$ExeFolder)   # folder the trainer exe was started from (default: workspace Trainers\, else release\)
 $proc = "Probably Stolen"
 if (-not $ExeFolder) {
@@ -13,8 +13,11 @@ $results = @()
 function Check($name, $ok, $detail) { $script:results += [pscustomobject]@{ Test=$name; Result=$(if($ok){'PASS'}else{'FAIL'}); Detail=$detail } }
 
 $s0 = St; $cash0=[int]$s0.cash; $favor0=[int]$s0.favor
-Check "Payload version 2 loaded" ($s0.version -eq '2') "version=$($s0.version)"
-Check "Game hooks attached (expect 12)" ($s0.patches -eq '12') "patches=$($s0.patches)"
+Check "Payload version 8 loaded" ($s0.version -eq '8') "version=$($s0.version)"
+Check "Game hooks attached (expect 18)" ($s0.patches -eq '18') "patches=$($s0.patches)"
+Check "Perk limits patched (expect 3)" ($s0.perkpatch -eq '3') "perkpatch=$($s0.perkpatch)"
+$s = Send "toggle|unlimited_perks|1"; Check "Unlimited Perk Points on" ($s.perkpoints -eq '99') "perkpoints=$($s.perkpoints)"
+$s = Send "toggle|unlimited_perks|0"; Check "Unlimited Perk Points off" ($s.perkpoints -eq '3') "perkpoints=$($s.perkpoints)"
 "Start: cash=$cash0 favor=$favor0 aug=$($s0.aug) evidence=$($s0.evidence) garbage=$($s0.garbage) rentdays=$($s0.rentdays)"
 
 $s = Send "addcash|1000";              Check "Add Money"   ([int]$s.cash -eq $cash0+1000) "$cash0 -> $($s.cash) | $($s.message)"
@@ -34,7 +37,16 @@ $s = Send "heal";                      Check "Heal Wounds" ($s.message -like 'Wo
 $s = Send "resetrent";                 Check "Reset Rent Timer" ([int]$s.rentdays -eq 7) "rentdays=$($s.rentdays)"
 $s = Send "speed|2";                   Check "Game Speed x2" ($s.speed -eq '2') "speed=$($s.speed) | $($s.message)"
 $s = Send "speed|1";                   Check "Game Speed back x1" ($s.speed -eq '1') "speed=$($s.speed)"
-foreach($t in 'always_bargain','patient_clients','no_heat','no_inspections','no_rent','clean_store','perfect_health','god_mode','unlimited_scav') {
+$s = Send "toggle|highlight_fakes|0" 300   # isolate: red/blue frames would otherwise stay lit
+$s = Send "toggle|highlight_wanted|1" 1500
+Check "Highlight Wanted Items" ($s.'t.highlight_wanted' -eq '1') "customer=$($s.customer) | highlighted=$($s.highlighted)"
+$s = Send "toggle|highlight_wanted|0" 1000
+Check "Highlight clears when off" ($s.highlighted -eq '0') "highlighted=$($s.highlighted)"
+$s = Send "toggle|highlight_fakes|1" 1500
+Check "Highlight Fakes / Known" ($s.'t.highlight_fakes' -eq '1') "fake(red)=$($s.hl_fake) known(blue)=$($s.hl_known) | $($s.hl_detail)"
+$s = Send "toggle|highlight_fakes|0" 1000
+Check "Fake highlight clears when off" ($s.highlighted -eq '0') "highlighted=$($s.highlighted)"
+foreach($t in 'always_bargain','patient_clients','no_heat','no_inspections','no_rent','clean_store','perfect_health','god_mode','unlimited_scav','appraisal_helper') {
   $s = Send "toggle|$t|1" 500; $on = $s."t.$t"; $s = Send "toggle|$t|0" 500
   Check "Toggle switches: $t" ($on -eq '1' -and $s."t.$t" -eq '0') "on=$on off=$($s."t.$t")"
 }

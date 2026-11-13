@@ -35,6 +35,10 @@ Requires the [.NET 9 Desktop Runtime](https://dotnet.microsoft.com/download/dotn
 | Num 9 | Perfect Health (no wounds / Sentinel) |
 | Num 0 | God Mode + No Thirst (raids, after-hours) |
 | Num . | Unlimited Scavenging |
+| Num * | Highlight Wanted Items: gold frame on every item the customer at the counter would buy |
+| Num - | Highlight Fakes: red frame = counterfeit / hidden flaw not found yet, blue = flaw already discovered (works on customers' items too) |
+| Num / | Unlimited Perk Points on the Starting Perks screen (99 points, 40 slots) |
+| F5 | Appraisal Helper: true value, "Perfect" estimate range and a +/- breakdown in the tooltip of appraisal items |
 | Num + | Game Speed (x0.5 – x5) |
 
 ### Instant actions

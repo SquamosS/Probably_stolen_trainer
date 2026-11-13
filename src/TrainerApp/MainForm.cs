@@ -40,7 +40,7 @@ internal sealed class MainForm : Form
     private int statusFailCount;
     private DateTime nextProcessCheck, nextStatusRead;
 
-    private const int Pad = 16, Gap = 12, Top = 78, BodyH = 548;
+    private const int Pad = 16, Gap = 12, Top = 78, BodyH = 708;
 
     public MainForm()
     {
@@ -49,7 +49,7 @@ internal sealed class MainForm : Form
         BackColor = Theme.Bg;
         ForeColor = Theme.Text;
         Font = Theme.Body;
-        ClientSize = new Size(1300, 686);
+        ClientSize = new Size(1300, 846);
         StartPosition = FormStartPosition.CenterScreen;
         DoubleBuffered = true;
         Directory.CreateDirectory(dataDir);
@@ -106,7 +106,7 @@ internal sealed class MainForm : Form
     {
         var badge = new BadgeBox { Location = new Point(Pad, 16), Size = new Size(44, 44) };
         var title = new Label { Text = Theme.Brand, Font = Theme.Title, ForeColor = Theme.Text, AutoSize = true, Location = new Point(70, 12), BackColor = Color.Transparent };
-        var sub = new Label { Text = "Probably Stolen  •  v1.0+  •  25 cheats  •  made by SquamosS", Font = Theme.Sub, ForeColor = Theme.Dim, AutoSize = true, Location = new Point(73, 42), BackColor = Color.Transparent };
+        var sub = new Label { Text = "Probably Stolen  •  v1.1  •  29 cheats  •  made by SquamosS", Font = Theme.Sub, ForeColor = Theme.Dim, AutoSize = true, Location = new Point(73, 42), BackColor = Color.Transparent };
         Controls.AddRange(new Control[] { badge, title, sub });
 
         var close = new WindowGlyph("✕", true) { Location = new Point(ClientSize.Width - 50, 14) };
@@ -172,6 +172,10 @@ internal sealed class MainForm : Form
         AddToggle(card, "perfect_health", "Perfect Health", "Num 9", Keys.NumPad9, ref y);
         AddToggle(card, "god_mode", "God Mode + No Thirst", "Num 0", Keys.NumPad0, ref y);
         AddToggle(card, "unlimited_scav", "Unlimited Scavenging", "Num .", Keys.Decimal, ref y);
+        AddToggle(card, "highlight_wanted", "Highlight Wanted Items", "Num *", Keys.Multiply, ref y);
+        AddToggle(card, "highlight_fakes", "Highlight Fakes (red) / Known (blue)", "Num -", Keys.Subtract, ref y);
+        AddToggle(card, "unlimited_perks", "Unlimited Perk Points (new game)", "Num /", Keys.Divide, ref y);
+        AddToggle(card, "appraisal_helper", "Appraisal Helper (true value)", "F5", Keys.F5, ref y);
         var speed = AddRow(card, new OptionRow(OptKind.Toggle, "speed", "Game Speed", "Num +", Keys.Add, false, EditKind.Stepper, 2.0)
             { Min = 0.5, Max = 5, Step = 0.5 }, ref y);
         speed.ValueChanged += r => { if (r.On) Send("speed|" + r.Value.ToString(CultureInfo.InvariantCulture)); };
